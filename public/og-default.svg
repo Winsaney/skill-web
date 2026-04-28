@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Nick 的 AI Skills 库">
+  <rect width="1200" height="630" fill="#ffffff"/>
+  <path d="M96 96H1104V534H96Z" fill="#f7f7f5" stroke="#e8e8e4"/>
+  <path d="M156 156H1044" stroke="#d3d3cf"/>
+  <path d="M156 474H1044" stroke="#d3d3cf"/>
+  <rect x="156" y="214" width="72" height="72" rx="12" fill="#1a1a1a"/>
+  <text x="192" y="262" fill="#ffffff" font-family="Arial, sans-serif" font-size="32" font-weight="700" text-anchor="middle">N</text>
+  <text x="260" y="242" fill="#1a1a1a" font-family="Arial, sans-serif" font-size="56" font-weight="700">Nick 的 AI Skills 库</text>
+  <text x="260" y="304" fill="#5a5a5a" font-family="Arial, sans-serif" font-size="28">体系化整理 AI 使用技巧、场景、示例和实践</text>
+  <text x="156" y="420" fill="#787774" font-family="Arial, sans-serif" font-size="22">Notion CMS / Next.js ISR / 小红书 AI 实践</text>
+</svg>
