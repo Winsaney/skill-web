@@ -5,12 +5,15 @@ import type {
   PageObjectResponse,
   QueryDatabaseResponse
 } from "@notionhq/client/build/src/api-endpoints";
+import { unstable_cache } from "next/cache";
 import { demoSkills } from "@/lib/demo-data";
 import { transformNotionPage } from "@/lib/transform";
 import type { NotionBlock, Skill } from "@/types";
 
 const notionToken = process.env.NOTION_TOKEN;
 const notionDatabaseId = process.env.NOTION_DATABASE_ID;
+const NOTION_RETRY_ATTEMPTS = 3;
+const NOTION_RETRY_DELAY_MS = 450;
 
 function hasNotionConfig() {
   return Boolean(notionToken && notionDatabaseId);
@@ -38,6 +41,45 @@ function sortByCreatedAtDesc(skills: Skill[]) {
   );
 }
 
+function delay(ms: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+function isRetryableNotionError(error: unknown) {
+  const { code, status } = error as { code?: string; status?: number };
+
+  return (
+    status === 429 ||
+    Boolean(status && status >= 500) ||
+    code === "ECONNRESET" ||
+    code === "ETIMEDOUT" ||
+    code === "ECONNREFUSED" ||
+    code === "ENOTFOUND"
+  );
+}
+
+async function withNotionRetry<T>(operation: () => Promise<T>): Promise<T> {
+  let lastError: unknown;
+
+  for (let attempt = 1; attempt <= NOTION_RETRY_ATTEMPTS; attempt += 1) {
+    try {
+      return await operation();
+    } catch (error) {
+      lastError = error;
+
+      if (attempt === NOTION_RETRY_ATTEMPTS || !isRetryableNotionError(error)) {
+        throw error;
+      }
+
+      await delay(NOTION_RETRY_DELAY_MS * attempt);
+    }
+  }
+
+  throw lastError;
+}
+
 async function getBlockChildren(
   notion: Client,
   blockId: string
@@ -46,11 +88,13 @@ async function getBlockChildren(
   let startCursor: string | undefined;
 
   do {
-    const response = await notion.blocks.children.list({
-      block_id: blockId,
-      page_size: 100,
-      start_cursor: startCursor
-    });
+    const response = await withNotionRetry(() =>
+      notion.blocks.children.list({
+        block_id: blockId,
+        page_size: 100,
+        start_cursor: startCursor
+      })
+    );
 
     for (const block of response.results.filter(isBlockObjectResponse)) {
       const nextBlock: NotionBlock = { ...block };
@@ -68,32 +112,54 @@ async function getBlockChildren(
   return blocks;
 }
 
+async function getPublishedSkillsFromNotion(): Promise<Skill[]> {
+  const notion = createNotionClient();
+  const results: QueryDatabaseResponse["results"] = [];
+  let startCursor: string | undefined;
+
+  do {
+    const response = await withNotionRetry(() =>
+      notion.databases.query({
+        database_id: notionDatabaseId!,
+        page_size: 100,
+        start_cursor: startCursor,
+        filter: {
+          property: "Status",
+          select: {
+            equals: "Published"
+          }
+        },
+        sorts: [
+          {
+            property: "Created At",
+            direction: "descending"
+          }
+        ]
+      })
+    );
+
+    results.push(...response.results);
+    startCursor = response.next_cursor ?? undefined;
+  } while (startCursor);
+
+  return results
+    .filter(isPageObjectResponse)
+    .map(transformNotionPage)
+    .filter((skill) => skill.status === "Published");
+}
+
+const getCachedPublishedSkillsFromNotion = unstable_cache(
+  getPublishedSkillsFromNotion,
+  ["published-skills"],
+  { revalidate: 3600 }
+);
+
 export async function getPublishedSkills(): Promise<Skill[]> {
   if (!hasNotionConfig()) {
     return sortByCreatedAtDesc(demoSkills);
   }
 
-  const notion = createNotionClient();
-  const response = await notion.databases.query({
-    database_id: notionDatabaseId!,
-    filter: {
-      property: "Status",
-      select: {
-        equals: "Published"
-      }
-    },
-    sorts: [
-      {
-        property: "Created At",
-        direction: "descending"
-      }
-    ]
-  });
-
-  return response.results
-    .filter(isPageObjectResponse)
-    .map(transformNotionPage)
-    .filter((skill) => skill.status === "Published");
+  return getCachedPublishedSkillsFromNotion();
 }
 
 export async function getSkillBySlug(

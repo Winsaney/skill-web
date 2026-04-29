@@ -87,10 +87,14 @@ function renderBlock(block: NotionBlock) {
   switch (block.type) {
     case "paragraph":
       return (
-        <p key={block.id}>
-          <RichText items={block.paragraph.rich_text} />
+        <div key={block.id}>
+          {block.paragraph.rich_text.length > 0 ? (
+            <p>
+              <RichText items={block.paragraph.rich_text} />
+            </p>
+          ) : null}
           <NestedBlocks blocks={block.children} />
-        </p>
+        </div>
       );
     case "heading_1":
       return (

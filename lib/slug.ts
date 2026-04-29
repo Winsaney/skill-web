@@ -31,10 +31,19 @@ export function normalizeSlug(value: string) {
 }
 
 export function generateSlugFromName(name: string) {
-  const pinyinText = pinyin(name, {
-    toneType: "none",
-    type: "array"
-  }).join(" ");
+  const tokens = name.match(/[A-Za-z0-9]+|[\u3400-\u9fff]+/g) ?? [];
+  const pinyinText = tokens
+    .map((token) => {
+      if (/^[A-Za-z0-9]+$/.test(token)) {
+        return token;
+      }
+
+      return pinyin(token, {
+        toneType: "none",
+        type: "array"
+      }).join(" ");
+    })
+    .join(" ");
 
   return normalizeSlug(pinyinText) || "untitled-skill";
 }
