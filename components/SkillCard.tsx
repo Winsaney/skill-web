@@ -1,18 +1,25 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { memo, useState } from "react";
 import type { Skill } from "@/types";
 
+const skillDateFormatter = new Intl.DateTimeFormat("zh-CN", {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit"
+});
+
+type SkillCardProps = {
+  skill: Skill;
+};
+
 function formatDate(value: string) {
-  return new Intl.DateTimeFormat("zh-CN", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit"
-  }).format(new Date(value));
+  return skillDateFormatter.format(new Date(value));
 }
 
-export function SkillCard({ skill }: { skill: Skill }) {
+function SkillCardComponent({ skill }: SkillCardProps) {
   const [imageFailed, setImageFailed] = useState(false);
   const showImage = Boolean(skill.icon && !imageFailed);
   const fallbackMark = skill.name.slice(0, 1).toUpperCase();
@@ -22,12 +29,14 @@ export function SkillCard({ skill }: { skill: Skill }) {
       <div className="skill-card-topline">
         <span className="skill-icon" aria-hidden="true">
           {showImage ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={skill.icon ?? ""}
+            <Image
               alt=""
+              height={38}
               loading="lazy"
               onError={() => setImageFailed(true)}
+              src={skill.icon ?? ""}
+              unoptimized
+              width={38}
             />
           ) : (
             fallbackMark
@@ -46,3 +55,5 @@ export function SkillCard({ skill }: { skill: Skill }) {
     </Link>
   );
 }
+
+export const SkillCard = memo(SkillCardComponent);

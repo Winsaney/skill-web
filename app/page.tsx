@@ -24,11 +24,9 @@ export default async function Home() {
   return (
     <main>
       <section className="hero-section">
-        <p className="eyebrow">AI Skills / Notion CMS / 小红书实践</p>
-        <h1>把零散的 AI 经验，整理成可以反复使用的 Skills。</h1>
+        <h1>AI Skills 库</h1>
         <p className="hero-copy">
-          这里收集提示词工程、工作流自动化和内容创作中的方法、场景与示例。
-          每个 Skill 都尽量写成可复用的解决方案，方便学习、分享和继续迭代。
+          体系化整理我在 AI 领域的实践方法论。每个 Skill 包含核心介绍、使用场景、实战示例。
         </p>
         <dl className="hero-stats" aria-label="站点统计">
           <div>
@@ -38,10 +36,6 @@ export default async function Home() {
           <div>
             <dt>{categories.length}</dt>
             <dd>Categories</dd>
-          </div>
-          <div>
-            <dt>1h</dt>
-            <dd>ISR Refresh</dd>
           </div>
         </dl>
       </section>
