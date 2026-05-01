@@ -1,6 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import type { RichTextItemResponse } from "@notionhq/client/build/src/api-endpoints";
 import type { ReactNode } from "react";
+import {
+  sectionIdFromBlock,
+  sectionIdFromIndex
+} from "@/lib/skill-navigation";
 import type { NotionBlock, SkillContentSection } from "@/types";
 
 function plainText(items: RichTextItemResponse[]) {
@@ -94,19 +98,19 @@ function renderBlock(block: NotionBlock) {
       );
     case "heading_1":
       return (
-        <h2 key={block.id}>
+        <h2 id={sectionIdFromBlock(block)} key={block.id}>
           <RichText items={block.heading_1.rich_text} />
         </h2>
       );
     case "heading_2":
       return (
-        <h2 key={block.id}>
+        <h2 id={sectionIdFromBlock(block)} key={block.id}>
           <RichText items={block.heading_2.rich_text} />
         </h2>
       );
     case "heading_3":
       return (
-        <h3 key={block.id}>
+        <h3 id={sectionIdFromBlock(block)} key={block.id}>
           <RichText items={block.heading_3.rich_text} />
         </h3>
       );
@@ -237,8 +241,11 @@ export function NotionContent({
 
   return (
     <div className="article-body">
-      {(fallbackSections ?? []).map((section) => (
-        <section key={section.title}>
+      {(fallbackSections ?? []).map((section, index) => (
+        <section
+          id={sectionIdFromIndex(index)}
+          key={`${section.title}-${index}`}
+        >
           <h2>{section.title}</h2>
           {section.body.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
