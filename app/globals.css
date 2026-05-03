@@ -437,6 +437,7 @@ main {
 
 .skill-detail-main {
   min-width: 0;
+  padding-inline: var(--page-gutter);
 }
 
 .skill-sidebar {
