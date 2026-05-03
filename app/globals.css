@@ -767,6 +767,64 @@ main {
   text-align: center;
 }
 
+.notion-table-wrap {
+  overflow-x: auto;
+  margin: var(--space-6) 0;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.notion-table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.notion-table th,
+.notion-table td {
+  min-width: 132px;
+  border-right: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-3);
+  text-align: left;
+  vertical-align: top;
+}
+
+.notion-table th {
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  font-weight: var(--font-semibold);
+}
+
+.notion-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.notion-table th:last-child,
+.notion-table td:last-child {
+  border-right: 0;
+}
+
+.notion-database {
+  margin: var(--space-8) 0;
+}
+
+.notion-database h3 {
+  margin-bottom: var(--space-3);
+}
+
+.notion-database-empty {
+  margin: var(--space-6) 0;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-bg-secondary);
+  padding: var(--space-4);
+  color: var(--color-text-muted);
+}
+
 .notion-todo {
   display: flex;
   align-items: flex-start;

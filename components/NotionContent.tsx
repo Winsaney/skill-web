@@ -87,6 +87,94 @@ function ExternalImage({ block }: { block: Extract<NotionBlock, { type: "image" 
   );
 }
 
+function NotionTable({ block }: { block: Extract<NotionBlock, { type: "table" }> }) {
+  const rows =
+    block.children?.filter(
+      (child): child is Extract<NotionBlock, { type: "table_row" }> =>
+        child.type === "table_row"
+    ) ?? [];
+
+  if (rows.length === 0) {
+    return null;
+  }
+
+  const [firstRow, ...bodyRows] = rows;
+  const hasColumnHeader = block.table.has_column_header;
+  const renderCell = (
+    cell: RichTextItemResponse[],
+    index: number,
+    asHeader = false
+  ) => {
+    const Cell = asHeader ? "th" : "td";
+
+    return (
+      <Cell key={index}>
+        <RichText items={cell} />
+      </Cell>
+    );
+  };
+
+  return (
+    <div className="notion-table-wrap" key={block.id}>
+      <table className="notion-table">
+        {hasColumnHeader ? (
+          <thead>
+            <tr>{firstRow.table_row.cells.map((cell, index) => renderCell(cell, index, true))}</tr>
+          </thead>
+        ) : null}
+        <tbody>
+          {(hasColumnHeader ? bodyRows : rows).map((row) => (
+            <tr key={row.id}>
+              {row.table_row.cells.map((cell, index) =>
+                renderCell(cell, index, block.table.has_row_header && index === 0)
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function ChildDatabase({ block }: { block: Extract<NotionBlock, { type: "child_database" }> }) {
+  const database = block.database;
+  const title = block.child_database.title;
+
+  if (!database || database.columns.length === 0) {
+    return (
+      <div className="notion-database-empty" key={block.id}>
+        {title}
+      </div>
+    );
+  }
+
+  return (
+    <section className="notion-database" key={block.id}>
+      {title ? <h3>{title}</h3> : null}
+      <div className="notion-table-wrap">
+        <table className="notion-table">
+          <thead>
+            <tr>
+              {database.columns.map((column) => (
+                <th key={column}>{column}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {database.rows.map((row, rowIndex) => (
+              <tr key={`${block.id}-${rowIndex}`}>
+                {database.columns.map((column) => (
+                  <td key={column}>{row[column]}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
 function renderBlock(block: NotionBlock) {
   switch (block.type) {
     case "paragraph":
@@ -142,6 +230,12 @@ function renderBlock(block: NotionBlock) {
       return <hr key={block.id} />;
     case "image":
       return <ExternalImage block={block} key={block.id} />;
+    case "table":
+      return <NotionTable block={block} key={block.id} />;
+    case "table_row":
+      return null;
+    case "child_database":
+      return <ChildDatabase block={block} key={block.id} />;
     case "to_do":
       return (
         <label className="notion-todo" key={block.id}>

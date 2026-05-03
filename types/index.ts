@@ -2,7 +2,14 @@ import type { BlockObjectResponse } from "@notionhq/client/build/src/api-endpoin
 
 export type NotionBlock = BlockObjectResponse & {
   children?: NotionBlock[];
+  database?: EmbeddedNotionDatabase;
 };
+
+export interface EmbeddedNotionDatabase {
+  title: string;
+  columns: string[];
+  rows: Record<string, string>[];
+}
 
 export interface SkillContentSection {
   title: string;
