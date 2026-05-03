@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { DocsSidebar } from "@/components/DocsSidebar";
 import { getSidebarConfig } from "@/lib/sidebar-config";
 
@@ -20,11 +19,6 @@ export default async function SpecificationPage() {
 
         <div className="docs-content">
           <article className="article-layout">
-            <nav className="breadcrumb" aria-label="面包屑">
-              <Link href="/">首页</Link>
-              <span>Skills 规范</span>
-            </nav>
-
             <header className="article-header">
               <h1>Skills 规范</h1>
               <p>Agent Skills 的完整格式规范。</p>

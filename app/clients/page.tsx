@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { DocsSidebar } from "@/components/DocsSidebar";
 import { getSidebarConfig } from "@/lib/sidebar-config";
 import { clients } from "@/lib/clients-data";
@@ -21,11 +20,6 @@ export default async function ClientsPage() {
 
         <div className="docs-content">
           <article className="article-layout">
-            <nav className="breadcrumb" aria-label="面包屑">
-              <Link href="/">首页</Link>
-              <span>Agent 工具</span>
-            </nav>
-
             <header className="article-header">
               <h1>Agent 工具</h1>
               <p>支持 Agent Skills 格式的 AI Agent 产品。</p>
