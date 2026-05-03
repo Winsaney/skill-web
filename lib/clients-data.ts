@@ -1,0 +1,301 @@
+export interface Client {
+  name: string;
+  description: string;
+  url: string;
+  instructionsUrl?: string;
+  sourceCodeUrl?: string;
+}
+
+export const clients: Client[] = [
+  {
+    name: "Junie",
+    description:
+      "Junie is an LLM-agnostic coding agent built for real-world development. It is built on top of the IntelliJ Platform, so it understands your project the same way your editor does.",
+    url: "https://junie.jetbrains.com/",
+    instructionsUrl: "https://junie.jetbrains.com/docs/agent-skills.html",
+  },
+  {
+    name: "Gemini CLI",
+    description:
+      "Gemini CLI is an open-source AI agent that brings the power of Gemini directly into your terminal.",
+    url: "https://geminicli.com",
+    instructionsUrl: "https://geminicli.com/docs/cli/skills/",
+    sourceCodeUrl: "https://github.com/google-gemini/gemini-cli",
+  },
+  {
+    name: "Autohand Code CLI",
+    description:
+      "Autohand Code CLI is an autonomous LLM-powered coding agent that lives in your terminal. It uses the ReAct (Reason + Act) pattern to understand your codebase, plan changes, and execute them with your approval.",
+    url: "https://autohand.ai/",
+    instructionsUrl:
+      "https://autohand.ai/docs/working-with-autohand-code/agent-skills.html",
+    sourceCodeUrl: "https://github.com/autohandai/code-cli",
+  },
+  {
+    name: "OpenCode",
+    description:
+      "OpenCode is an open source agent that helps you write code in your terminal, IDE, or desktop.",
+    url: "https://opencode.ai/",
+    instructionsUrl: "https://opencode.ai/docs/skills/",
+    sourceCodeUrl: "https://github.com/sst/opencode",
+  },
+  {
+    name: "OpenHands",
+    description:
+      "OpenHands is the open platform for cloud coding agents. Scale from one to thousands of agents — open source, model-agnostic, and enterprise-ready.",
+    url: "https://openhands.dev/",
+    instructionsUrl: "https://docs.openhands.dev/overview/skills",
+    sourceCodeUrl: "https://github.com/OpenHands/OpenHands",
+  },
+  {
+    name: "Mux",
+    description:
+      "Mux makes it easy to run parallel coding agents, each with its own isolated workspace, right from your browser or desktop. Mux is open source and LLM provider-agnostic.",
+    url: "https://mux.coder.com/",
+    instructionsUrl: "https://mux.coder.com/agent-skills",
+    sourceCodeUrl: "https://github.com/coder/mux",
+  },
+  {
+    name: "Cursor",
+    description:
+      "Cursor is an AI editor and coding agent. Use it to understand your codebase, plan and build features, fix bugs, review changes, and work with the tools you already use.",
+    url: "https://cursor.com/",
+    instructionsUrl: "https://cursor.com/docs/context/skills",
+  },
+  {
+    name: "Amp",
+    description:
+      "Amp is the frontier coding agent that lets you wield the full power of leading models.",
+    url: "https://ampcode.com/",
+    instructionsUrl: "https://ampcode.com/manual#agent-skills",
+  },
+  {
+    name: "Letta",
+    description:
+      "Letta is the platform for building stateful agents: AI with advanced memory that can learn and self-improve over time.",
+    url: "https://www.letta.com/",
+    instructionsUrl: "https://docs.letta.com/letta-code/skills/",
+    sourceCodeUrl: "https://github.com/letta-ai/letta",
+  },
+  {
+    name: "Firebender",
+    description:
+      "Firebender is the first Android-native coding agent that writes features, tests them in the emulator, and fixes issues automatically.",
+    url: "https://firebender.com/",
+    instructionsUrl: "https://docs.firebender.com/multi-agent/skills",
+  },
+  {
+    name: "Goose",
+    description:
+      "Goose is an open source, extensible AI agent that goes beyond code suggestions — install, execute, edit, and test with any LLM.",
+    url: "https://block.github.io/goose/",
+    instructionsUrl:
+      "https://block.github.io/goose/docs/guides/context-engineering/using-skills/",
+    sourceCodeUrl: "https://github.com/block/goose",
+  },
+  {
+    name: "GitHub Copilot",
+    description:
+      "GitHub Copilot works alongside you directly in your editor, suggesting whole lines or entire functions for you.",
+    url: "https://github.com/",
+    instructionsUrl:
+      "https://docs.github.com/en/copilot/concepts/agents/about-agent-skills",
+    sourceCodeUrl: "https://github.com/microsoft/vscode-copilot-chat",
+  },
+  {
+    name: "VS Code",
+    description:
+      "Visual Studio Code combines the simplicity of a code editor with what developers need for their core edit-build-debug cycle.",
+    url: "https://code.visualstudio.com/",
+    instructionsUrl:
+      "https://code.visualstudio.com/docs/copilot/customization/agent-skills",
+    sourceCodeUrl: "https://github.com/microsoft/vscode",
+  },
+  {
+    name: "Claude Code",
+    description:
+      "Claude Code is an agentic coding tool that reads your codebase, edits files, runs commands, and integrates with your development tools. Available in your terminal, IDE, desktop app, and browser.",
+    url: "https://claude.ai/code",
+    instructionsUrl: "https://code.claude.com/docs/en/skills",
+  },
+  {
+    name: "Claude",
+    description:
+      "Claude is Anthropic's AI, built for problem solvers. Tackle complex challenges, analyze data, write code, and think through your hardest work.",
+    url: "https://claude.ai/",
+    instructionsUrl:
+      "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
+  },
+  {
+    name: "OpenAI Codex",
+    description:
+      "Codex is OpenAI's coding agent for software development.",
+    url: "https://developers.openai.com/codex",
+    instructionsUrl: "https://developers.openai.com/codex/skills/",
+    sourceCodeUrl: "https://github.com/openai/codex",
+  },
+  {
+    name: "Piebald",
+    description:
+      "Piebald is a desktop & web app that makes it easier than ever to do agentic development, while at the same time giving you complete control over the configuration, context, and flow.",
+    url: "https://piebald.ai",
+  },
+  {
+    name: "Factory",
+    description:
+      "Factory is an AI-native software development platform that works everywhere you do. From IDE to CI/CD — delegate complete tasks like refactors, incident response, and migrations to Droids without changing your tools, models, or workflow.",
+    url: "https://factory.ai/",
+    instructionsUrl: "https://docs.factory.ai/cli/configuration/skills",
+  },
+  {
+    name: "pi",
+    description:
+      "Pi is a minimal terminal coding harness. Adapt pi to your workflows, not the other way around.",
+    url: "https://shittycodingagent.ai/",
+    instructionsUrl:
+      "https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/docs/skills.md",
+    sourceCodeUrl: "https://github.com/badlogic/pi-mono",
+  },
+  {
+    name: "Databricks Genie Code",
+    description:
+      "Genie Code is an autonomous AI partner purpose-built for data work in Databricks.",
+    url: "https://databricks.com/",
+    instructionsUrl: "https://docs.databricks.com/aws/en/assistant/skills",
+  },
+  {
+    name: "Agentman",
+    description:
+      "Agentman is an agentic healthcare platform. It automates revenue cycle workflows using AI agents without sacrificing control. Every action is testable, traceable, and auditable.",
+    url: "https://agentman.ai/",
+    instructionsUrl: "https://agentman.ai/agentskills",
+  },
+  {
+    name: "TRAE",
+    description:
+      "Trae is an adaptive AI IDE that transforms how you work, collaborating with you to run faster.",
+    url: "https://trae.ai/",
+    instructionsUrl: "https://www.trae.ai/blog/trae_tutorial_0115",
+    sourceCodeUrl: "https://github.com/bytedance/trae-agent",
+  },
+  {
+    name: "Spring AI",
+    description:
+      "Spring AI aims to streamline the development of applications that incorporate artificial intelligence functionality without unnecessary complexity.",
+    url: "https://docs.spring.io/spring-ai/reference",
+    instructionsUrl:
+      "https://spring.io/blog/2026/01/13/spring-ai-generic-agent-skills/",
+    sourceCodeUrl: "https://github.com/spring-projects/spring-ai",
+  },
+  {
+    name: "Roo Code",
+    description:
+      "Roo Code puts an entire AI dev team right in your editor, outpacing closed tools with deep project-wide context, multi-step agentic coding, and unmatched developer-centric flexibility.",
+    url: "https://roocode.com",
+    instructionsUrl: "https://docs.roocode.com/features/skills",
+    sourceCodeUrl: "https://github.com/RooCodeInc/Roo-Code",
+  },
+  {
+    name: "Mistral AI Vibe",
+    description:
+      "Mistral Vibe is a command-line coding assistant powered by Mistral's models. It provides a conversational interface to your codebase, allowing you to use natural language to explore, modify, and interact with your projects through a powerful set of tools.",
+    url: "https://github.com/mistralai/mistral-vibe",
+    instructionsUrl: "https://github.com/mistralai/mistral-vibe",
+    sourceCodeUrl: "https://github.com/mistralai/mistral-vibe",
+  },
+  {
+    name: "Command Code",
+    description:
+      "Command Code is a coding agent that continuously learns your coding taste. Our meta neuro-symbolic AI model taste-1 with continuous reinforcement learning combines LLMs with your coding taste.",
+    url: "https://commandcode.ai/",
+    instructionsUrl: "https://commandcode.ai/docs/skills",
+  },
+  {
+    name: "Ona",
+    description:
+      "Ona is a platform for background agents. Run a team of AI software engineers in the cloud. Orchestrated, governed, secured at the kernel.",
+    url: "https://ona.com",
+    instructionsUrl:
+      "https://ona.com/docs/ona/agents-md#skills-for-repository-specific-workflows",
+  },
+  {
+    name: "VT Code",
+    description:
+      "VT Code is an open-source coding agent with LLM-native code understanding and robust shell safety. Supports multiple LLM providers with automatic failover and efficient context management.",
+    url: "https://github.com/vinhnx/vtcode",
+    instructionsUrl:
+      "https://github.com/vinhnx/vtcode/blob/main/docs/skills/SKILLS_GUIDE.md",
+    sourceCodeUrl: "https://github.com/vinhnx/VTCode",
+  },
+  {
+    name: "Qodo",
+    description:
+      "Qodo is an agentic code integrity platform for reviewing, testing, and writing code, integrating AI across development workflows to strengthen code quality at every stage.",
+    url: "https://www.qodo.ai/",
+    instructionsUrl:
+      "https://www.qodo.ai/blog/how-i-use-qodos-agent-skills-to-auto-fix-issues-in-pull-requests/",
+  },
+  {
+    name: "Laravel Boost",
+    description:
+      "Laravel Boost accelerates AI-assisted development by providing the essential guidelines and agent skills that help AI agents write high-quality Laravel applications that adhere to Laravel best practices.",
+    url: "https://github.com/laravel/boost",
+    instructionsUrl: "https://laravel.com/docs/12.x/boost#agent-skills",
+    sourceCodeUrl: "https://github.com/laravel/boost",
+  },
+  {
+    name: "Emdash",
+    description:
+      "Emdash is a provider-agnostic desktop app that lets you run multiple coding agents in parallel, each isolated in its own git worktree, either locally or over SSH on a remote machine.",
+    url: "https://emdash.sh",
+    instructionsUrl: "https://docs.emdash.sh/skills",
+    sourceCodeUrl: "https://github.com/generalaction/emdash",
+  },
+  {
+    name: "Snowflake Cortex Code",
+    description:
+      "Cortex Code is an AI-driven intelligent agent integrated into the Snowflake platform, optimized for complex data engineering, analytics, machine learning, and agent-building tasks.",
+    url: "https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code",
+    instructionsUrl:
+      "https://docs.snowflake.com/en/user-guide/cortex-code/extensibility#extensibility-skills",
+  },
+  {
+    name: "Kiro",
+    description:
+      "Kiro helps you do your best work by bringing structure to AI coding with spec-driven development.",
+    url: "https://kiro.dev/",
+    instructionsUrl: "https://kiro.dev/docs/skills/",
+  },
+  {
+    name: "Workshop",
+    description:
+      "Workshop is a cross-platform AI coding agent for building full applications. It supports multi-LLM models, sub-agents, custom agents, and skills — available as a desktop app, web app, and CLI.",
+    url: "https://workshop.ai/",
+    instructionsUrl:
+      "https://docs.workshop.ai/core-concepts/working-with-the-agent#create-your-own-agents",
+  },
+  {
+    name: "Google AI Edge Gallery",
+    description:
+      "Google AI Edge Gallery is the premier destination for running the world's most powerful open-source Large Language Models (LLMs) on your mobile device.",
+    url: "https://github.com/google-ai-edge/gallery",
+    instructionsUrl: "https://github.com/google-ai-edge/gallery/tree/main/skills",
+    sourceCodeUrl: "https://github.com/google-ai-edge/gallery",
+  },
+  {
+    name: "nanobot",
+    description:
+      "nanobot is an ultra-lightweight, open-source personal AI agent. It runs across multiple platforms — terminal, Telegram, Discord, Slack, WeChat, and more — with built-in MCP support and a skills system for extensibility.",
+    url: "https://nanobot.wiki/",
+    instructionsUrl: "https://nanobot.wiki/docs/0.1.5/use-nanobot/skills",
+    sourceCodeUrl: "https://github.com/HKUDS/nanobot",
+  },
+  {
+    name: "fast-agent",
+    description:
+      "fast-agent is a simple, extendable way to interact with LLMs. Excellent for Coding, Evals, ACPX and Skills development.",
+    url: "https://fast-agent.ai/",
+    instructionsUrl: "https://fast-agent.ai/agents/skills/",
+    sourceCodeUrl: "https://github.com/evalstate/fast-agent",
+  },
+];

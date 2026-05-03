@@ -1,10 +1,18 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { SkillCard } from "@/components/SkillCard";
 import type { Skill } from "@/types";
 
 const ALL = "全部";
+
+function getCategoryFromHash(): string {
+  if (typeof window === "undefined") return ALL;
+  const match = window.location.hash.match(/[#&]category=([^&]*)/);
+  if (!match) return ALL;
+  const decoded = decodeURIComponent(match[1]);
+  return decoded || ALL;
+}
 
 export function CategoryFilter({
   skills,
@@ -14,6 +22,15 @@ export function CategoryFilter({
   categories: string[];
 }) {
   const [activeCategory, setActiveCategory] = useState(ALL);
+
+  // Sync from URL hash on mount
+  useEffect(() => {
+    const hashCategory = getCategoryFromHash();
+    if (hashCategory !== ALL) {
+      setActiveCategory(hashCategory);
+      document.getElementById("skills")?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
 
   const visibleSkills = useMemo(() => {
     if (activeCategory === ALL) {

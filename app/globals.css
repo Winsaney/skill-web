@@ -46,6 +46,218 @@
   --skill-sidebar-width: 280px;
 }
 
+html.dark {
+  --color-bg: #0c0c0c;
+  --color-bg-secondary: #161616;
+  --color-bg-hover: #1e1e1e;
+  --color-border: #262626;
+  --color-border-strong: #363636;
+  --color-text-primary: #e4e0db;
+  --color-text-secondary: #9a9590;
+  --color-text-muted: #6b6560;
+  --color-accent: #7eb8f0;
+  --color-accent-bg: #162436;
+  --color-tag-bg: #1e1e1e;
+  --color-code-bg: #141414;
+
+  --color-surface: rgba(22, 22, 22, 0.7);
+  --color-surface-hover: rgba(30, 30, 30, 0.8);
+  --color-glow: rgba(126, 184, 240, 0.04);
+}
+
+html.dark body {
+  background: var(--color-bg);
+}
+
+html.dark ::selection {
+  background: rgba(126, 184, 240, 0.2);
+  color: var(--color-text-primary);
+}
+
+/* Header — warm frosted glass */
+html.dark .site-header {
+  background: rgba(12, 12, 12, 0.78);
+  border-bottom-color: rgba(38, 38, 38, 0.6);
+  backdrop-filter: blur(24px) saturate(1.2);
+}
+
+/* Left sidebar — deep with subtle warmth */
+html.dark .docs-sidebar {
+  background: rgba(14, 14, 14, 0.94);
+  border-right-color: var(--color-border);
+}
+
+html.dark .docs-sidebar-link.active {
+  background: var(--color-text-primary);
+  color: #0c0c0c;
+}
+
+html.dark .docs-sidebar-group-title.active {
+  background: var(--color-text-primary);
+  color: #0c0c0c;
+}
+
+/* Right sidebar (TOC) */
+html.dark .skill-sidebar {
+  background: rgba(18, 18, 18, 0.92);
+  border-left-color: var(--color-border);
+}
+
+/* Cards — subtle glass with warm glow */
+html.dark .skill-card,
+html.dark .client-card {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+html.dark .skill-card:hover,
+html.dark .client-card:hover {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-hover);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--color-glow);
+}
+
+/* Code blocks — deeper with better contrast */
+html.dark .article-body pre,
+html.dark .notion-code {
+  background: var(--color-code-bg);
+  border-color: var(--color-border);
+}
+
+html.dark .rt-code {
+  background: rgba(255, 255, 255, 0.06);
+  color: #d4cfc9;
+}
+
+/* Tables */
+html.dark .notion-table-wrap {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+html.dark .notion-table th {
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+}
+
+html.dark .notion-table td {
+  color: var(--color-text-secondary);
+}
+
+/* Callouts */
+html.dark .notion-callout {
+  background: var(--color-bg-secondary);
+  border-color: var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+/* Article actions / buttons */
+html.dark .article-actions a,
+html.dark .outline-button {
+  background: var(--color-surface);
+  border-color: var(--color-border-strong);
+  color: var(--color-text-primary);
+}
+
+html.dark .article-actions a:hover,
+html.dark .outline-button:hover {
+  border-color: var(--color-accent);
+  background: var(--color-accent-bg);
+  color: var(--color-accent);
+}
+
+/* Pagination */
+html.dark .pagination a {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+html.dark .pagination a:hover {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-hover);
+}
+
+/* Empty state */
+html.dark .empty-state {
+  background: var(--color-surface);
+  border-color: var(--color-border-strong);
+  border-style: solid;
+}
+
+/* Footer */
+html.dark .site-footer {
+  border-top-color: var(--color-border);
+}
+
+/* Blockquote */
+html.dark .article-body blockquote {
+  border-left-color: var(--color-border-strong);
+}
+
+/* Notion database */
+html.dark .notion-database-empty {
+  background: var(--color-bg-secondary);
+  border-color: var(--color-border);
+}
+
+/* Theme toggle — refined pill shape */
+.theme-toggle {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition:
+    background 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease,
+    transform 200ms ease;
+}
+
+.theme-toggle:hover {
+  border-color: var(--color-border-strong);
+  color: var(--color-text-primary);
+  background: var(--color-bg-hover);
+}
+
+html.dark .theme-toggle {
+  border-color: var(--color-border-strong);
+  color: var(--color-text-muted);
+}
+
+html.dark .theme-toggle:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  background: var(--color-accent-bg);
+}
+
+/* Smooth theme transition on root elements */
+html.dark body,
+html.dark .site-header,
+html.dark .docs-sidebar,
+html.dark .skill-sidebar,
+html.dark .skill-card,
+html.dark .client-card,
+html.dark .notion-table-wrap,
+html.dark .notion-callout,
+html.dark .site-footer,
+html.dark .article-body pre,
+html.dark .notion-code,
+html.dark .pagination a,
+html.dark .article-actions a,
+html.dark .empty-state {
+  transition:
+    background 300ms ease,
+    border-color 300ms ease,
+    color 300ms ease,
+    box-shadow 300ms ease;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -441,7 +653,7 @@ main {
 }
 
 .skill-sidebar {
-  border-right: 1px solid var(--color-border);
+  border-left: 1px solid var(--color-border);
   background: rgba(247, 247, 245, 0.94);
   color: var(--color-text-secondary);
   display: none;
@@ -559,6 +771,7 @@ main {
   color: var(--color-accent);
 }
 
+.breadcrumb a::before,
 .breadcrumb span::before {
   content: "/";
   margin-right: var(--space-2);
@@ -993,7 +1206,7 @@ main {
     position: fixed;
     top: 64px;
     bottom: 0;
-    left: 0;
+    right: 0;
     z-index: 4;
     width: min(var(--skill-sidebar-width), 32vw);
     overflow-y: auto;
@@ -1005,7 +1218,7 @@ main {
   }
 
   .skill-detail-main {
-    margin-left: min(var(--skill-sidebar-width), 32vw);
+    margin-right: min(var(--skill-sidebar-width), 32vw);
     padding-inline: var(--space-8);
   }
 }
@@ -1024,6 +1237,248 @@ main {
 @media (min-width: 1440px) {
   :root {
     --skill-sidebar-width: 300px;
+  }
+}
+
+.docs-page {
+  width: 100%;
+  max-width: none;
+}
+
+.docs-sidebar {
+  display: none;
+}
+
+.docs-layout {
+  display: grid;
+  gap: var(--space-8);
+}
+
+.docs-content {
+  min-width: 0;
+  padding-inline: var(--page-gutter);
+}
+
+@media (min-width: 800px) {
+  .docs-sidebar {
+    display: block;
+    position: fixed;
+    top: 64px;
+    bottom: 0;
+    left: 0;
+    z-index: 4;
+    width: min(var(--skill-sidebar-width), 32vw);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border-right: 1px solid var(--color-border);
+    background: rgba(250, 250, 248, 0.96);
+  }
+
+  .docs-sidebar-inner {
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .docs-sidebar-links {
+    display: grid;
+    gap: 2px;
+  }
+
+  .docs-sidebar-link {
+    display: block;
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+    line-height: var(--leading-tight);
+    text-decoration: none;
+    transition:
+      background 100ms ease,
+      color 100ms ease;
+  }
+
+  .docs-sidebar-link:hover {
+    background: var(--color-bg-hover);
+    color: var(--color-text-primary);
+  }
+
+  .docs-sidebar-link.active {
+    background: var(--color-text-primary);
+    color: #ffffff;
+    font-weight: var(--font-medium);
+  }
+
+  .docs-sidebar-divider {
+    height: 1px;
+    background: var(--color-border);
+    margin: var(--space-4) 10px;
+  }
+
+  .docs-sidebar-groups {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .docs-sidebar-group {
+    display: grid;
+  }
+
+  .docs-sidebar-group-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: none;
+  }
+
+  .docs-sidebar-group-title {
+    flex: 1;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    transition:
+      background 100ms ease,
+      color 100ms ease;
+  }
+
+  .docs-sidebar-group-title:hover {
+    background: var(--color-bg-hover);
+  }
+
+  .docs-sidebar-group-title.active {
+    background: var(--color-text-primary);
+    color: #ffffff;
+  }
+
+  .docs-sidebar-toggle {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border: 0;
+    border-radius: 4px;
+    background: none;
+    cursor: pointer;
+    transition: background 100ms ease;
+  }
+
+  .docs-sidebar-toggle:hover {
+    background: var(--color-bg-hover);
+  }
+
+  .docs-sidebar-arrow {
+    font-size: 10px;
+    color: var(--color-text-muted);
+    transition: transform 150ms ease;
+  }
+
+  .docs-sidebar-group.collapsed .docs-sidebar-arrow {
+    transform: rotate(-90deg);
+  }
+
+  .docs-sidebar-group.collapsed .docs-sidebar-group-items {
+    display: none;
+  }
+
+  .docs-sidebar-group-items {
+    display: grid;
+    gap: 2px;
+    padding-left: var(--space-3);
+    margin-top: 2px;
+  }
+
+  .docs-sidebar-group-items .docs-sidebar-link {
+    font-size: var(--text-xs);
+    padding: 5px 10px;
+  }
+
+  .docs-content {
+    margin-left: min(var(--skill-sidebar-width), 32vw);
+    padding-inline: var(--space-8);
+  }
+}
+
+@media (min-width: 1024px) {
+  .docs-content {
+    padding-inline: var(--space-12);
+  }
+}
+
+.clients-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  padding-top: var(--space-8);
+}
+
+.client-card {
+  display: grid;
+  gap: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.88);
+  padding: 20px;
+  transition:
+    background 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease;
+}
+
+.client-card:hover {
+  border-color: var(--color-border-strong);
+  background: var(--color-bg-secondary);
+  transform: translateY(-2px);
+}
+
+.client-card h3 {
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+}
+
+.client-card h3 a {
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+.client-card h3 a:hover {
+  color: var(--color-accent);
+}
+
+.client-card > p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.client-card-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+}
+
+.client-card-links a {
+  color: var(--color-text-muted);
+}
+
+.client-card-links a:hover {
+  color: var(--color-accent);
+}
+
+@media (min-width: 640px) {
+  .clients-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

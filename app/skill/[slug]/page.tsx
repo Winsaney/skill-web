@@ -2,13 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { NotionContent } from "@/components/NotionContent";
+import { DocsSidebar } from "@/components/DocsSidebar";
 import { SkillSidebar } from "@/components/SkillSidebar";
 import {
   getAdjacentSkills,
   getPublishedSkills,
   getSkillBySlug
 } from "@/lib/notion";
-import { getRelatedSkills, getSkillSections } from "@/lib/skill-navigation";
+import { getSkillSections } from "@/lib/skill-navigation";
+import { getSidebarConfig } from "@/lib/sidebar-config";
 
 export const revalidate = 3600;
 
@@ -47,76 +49,82 @@ export async function generateMetadata({
 }
 
 export default async function SkillPage({ params }: PageProps) {
-  const skill = await getSkillBySlug(params.slug);
+  const [skill, sidebarConfig, adjacent, skills] = await Promise.all([
+    getSkillBySlug(params.slug),
+    getSidebarConfig(),
+    getAdjacentSkills(params.slug),
+    getPublishedSkills()
+  ]);
 
   if (!skill) {
     notFound();
   }
 
-  const [adjacent, skills] = await Promise.all([
-    getAdjacentSkills(skill.slug),
-    getPublishedSkills()
-  ]);
   const sections = getSkillSections(skill);
-  const relatedSkills = getRelatedSkills(skill, skills);
 
   return (
-    <main className="skill-page">
-      <div className="skill-detail-shell">
-        <SkillSidebar sections={sections} relatedSkills={relatedSkills} />
+    <main className="docs-page">
+      <div className="docs-layout">
+        <DocsSidebar config={sidebarConfig} />
 
-        <div className="skill-detail-main">
-          <article className="article-layout">
-            <nav className="breadcrumb" aria-label="面包屑">
-              <Link href="/">首页</Link>
-              {skill.category ? <span>{skill.category}</span> : null}
-              <span>{skill.name}</span>
-            </nav>
+        <div className="docs-content">
+          <div className="skill-detail-shell">
+            <SkillSidebar sections={sections} />
 
-            <header className="article-header">
-              {skill.category ? (
-                <span className="category-pill">{skill.category}</span>
-              ) : null}
-              <h1>{skill.name}</h1>
-              <p>{skill.summary || "暂无简介"}</p>
-              <div className="article-actions" aria-label="外部链接">
-                {skill.githubUrl ? (
-                  <a href={skill.githubUrl} target="_blank" rel="noreferrer">
-                    在 GitHub 查看
-                  </a>
-                ) : null}
-                {skill.xhsUrl ? (
-                  <a href={skill.xhsUrl} target="_blank" rel="noreferrer">
-                    查看小红书原帖
-                  </a>
-                ) : null}
-              </div>
-            </header>
+            <div className="skill-detail-main">
+              <article className="article-layout">
+                <nav className="breadcrumb" aria-label="面包屑">
+                  <Link href="/">首页</Link>
+                  {skill.category ? <Link href={`/#category=${encodeURIComponent(skill.category)}`}>{skill.category}</Link> : null}
+                  <span>{skill.name}</span>
+                </nav>
 
-            <NotionContent
-              blocks={skill.content}
-              fallbackSections={skill.demoSections}
-            />
-          </article>
+                <header className="article-header">
+                  {skill.category ? (
+                    <span className="category-pill">{skill.category}</span>
+                  ) : null}
+                  <h1>{skill.name}</h1>
+                  <p>{skill.summary || "暂无简介"}</p>
+                  <div className="article-actions" aria-label="外部链接">
+                    {skill.githubUrl ? (
+                      <a href={skill.githubUrl} target="_blank" rel="noreferrer">
+                        在 GitHub 查看
+                      </a>
+                    ) : null}
+                    {skill.xhsUrl ? (
+                      <a href={skill.xhsUrl} target="_blank" rel="noreferrer">
+                        查看小红书原帖
+                      </a>
+                    ) : null}
+                  </div>
+                </header>
 
-          <nav className="pagination" aria-label="上一篇和下一篇">
-            {adjacent.previous ? (
-              <Link href={`/skill/${adjacent.previous.slug}`}>
-                <span>上一篇</span>
-                {adjacent.previous.name}
-              </Link>
-            ) : (
-              <span />
-            )}
-            {adjacent.next ? (
-              <Link href={`/skill/${adjacent.next.slug}`}>
-                <span>下一篇</span>
-                {adjacent.next.name}
-              </Link>
-            ) : (
-              <span />
-            )}
-          </nav>
+                <NotionContent
+                  blocks={skill.content}
+                  fallbackSections={skill.demoSections}
+                />
+              </article>
+
+              <nav className="pagination" aria-label="上一篇和下一篇">
+                {adjacent.previous ? (
+                  <Link href={`/skill/${adjacent.previous.slug}`}>
+                    <span>上一篇</span>
+                    {adjacent.previous.name}
+                  </Link>
+                ) : (
+                  <span />
+                )}
+                {adjacent.next ? (
+                  <Link href={`/skill/${adjacent.next.slug}`}>
+                    <span>下一篇</span>
+                    {adjacent.next.name}
+                  </Link>
+                ) : (
+                  <span />
+                )}
+              </nav>
+            </div>
+          </div>
         </div>
       </div>
     </main>
