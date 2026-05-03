@@ -5,7 +5,17 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import type { SidebarConfig } from "@/lib/sidebar-config";
 
-export function DocsSidebar({ config }: { config: SidebarConfig }) {
+type DocsSidebarProps = {
+  config: SidebarConfig;
+};
+
+function groupItemsId(href: string) {
+  return `docs-sidebar-group-${encodeURIComponent(href)
+    .replace(/%/g, "")
+    .replace(/[^a-zA-Z0-9_-]+/g, "-")}`;
+}
+
+export function DocsSidebar({ config }: DocsSidebarProps) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
 
@@ -24,6 +34,7 @@ export function DocsSidebar({ config }: { config: SidebarConfig }) {
               className={`docs-sidebar-link${
                 pathname === link.href ? " active" : ""
               }`}
+              aria-current={pathname === link.href ? "page" : undefined}
             >
               {link.label}
             </Link>
@@ -34,46 +45,57 @@ export function DocsSidebar({ config }: { config: SidebarConfig }) {
           <>
             <div className="docs-sidebar-divider" />
             <div className="docs-sidebar-groups">
-              {config.groups.map((group) => (
-                <div
-                  key={group.title}
-                  className={`docs-sidebar-group${
-                    collapsed[group.title] ? " collapsed" : ""
-                  }`}
-                >
-                  <div className="docs-sidebar-group-header">
-                    <Link
-                      href={group.href}
-                      className={`docs-sidebar-group-title${
-                        pathname === group.href ? " active" : ""
-                      }`}
-                    >
-                      {group.title}
-                    </Link>
-                    <button
-                      type="button"
-                      className="docs-sidebar-toggle"
-                      onClick={() => toggleGroup(group.title)}
-                      aria-label={`展开或折叠 ${group.title}`}
-                    >
-                      <span className="docs-sidebar-arrow">&#9662;</span>
-                    </button>
-                  </div>
-                  <div className="docs-sidebar-group-items">
-                    {group.items.map((item) => (
+              {config.groups.map((group) => {
+                const isCollapsed = Boolean(collapsed[group.title]);
+                const itemsId = groupItemsId(group.href);
+
+                return (
+                  <div
+                    key={group.title}
+                    className={`docs-sidebar-group${
+                      isCollapsed ? " collapsed" : ""
+                    }`}
+                  >
+                    <div className="docs-sidebar-group-header">
                       <Link
-                        key={item.href}
-                        href={item.href}
-                        className={`docs-sidebar-link${
-                          pathname === item.href ? " active" : ""
+                        href={group.href}
+                        className={`docs-sidebar-group-title${
+                          pathname === group.href ? " active" : ""
                         }`}
+                        aria-current={pathname === group.href ? "page" : undefined}
                       >
-                        {item.label}
+                        {group.title}
                       </Link>
-                    ))}
+                      <button
+                        type="button"
+                        className="docs-sidebar-toggle"
+                        onClick={() => toggleGroup(group.title)}
+                        aria-controls={itemsId}
+                        aria-expanded={!isCollapsed}
+                        aria-label={`${isCollapsed ? "展开" : "折叠"} ${group.title}`}
+                      >
+                        <span className="docs-sidebar-arrow" aria-hidden="true">
+                          &#9662;
+                        </span>
+                      </button>
+                    </div>
+                    <div className="docs-sidebar-group-items" id={itemsId}>
+                      {group.items.map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          className={`docs-sidebar-link${
+                            pathname === item.href ? " active" : ""
+                          }`}
+                          aria-current={pathname === item.href ? "page" : undefined}
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </>
         )}

@@ -49,11 +49,10 @@ export async function generateMetadata({
 }
 
 export default async function SkillPage({ params }: PageProps) {
-  const [skill, sidebarConfig, adjacent, skills] = await Promise.all([
+  const [skill, sidebarConfig, adjacent] = await Promise.all([
     getSkillBySlug(params.slug),
     getSidebarConfig(),
-    getAdjacentSkills(params.slug),
-    getPublishedSkills()
+    getAdjacentSkills(params.slug)
   ]);
 
   if (!skill) {
@@ -75,7 +74,11 @@ export default async function SkillPage({ params }: PageProps) {
               <article className="article-layout">
                 <nav className="breadcrumb" aria-label="面包屑">
                   <Link href="/">首页</Link>
-                  {skill.category ? <Link href={`/#category=${encodeURIComponent(skill.category)}`}>{skill.category}</Link> : null}
+                  {skill.category ? (
+                    <Link href={`/#category=${encodeURIComponent(skill.category)}`}>
+                      {skill.category}
+                    </Link>
+                  ) : null}
                   <span>{skill.name}</span>
                 </nav>
 

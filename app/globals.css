@@ -518,6 +518,10 @@ main {
   animation: grid-in 180ms ease both;
 }
 
+.category-skill-grid {
+  margin-top: var(--space-8);
+}
+
 .skill-card {
   display: grid;
   min-height: 220px;

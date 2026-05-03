@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { DocsSidebar } from "@/components/DocsSidebar";
+import { SkillCard } from "@/components/SkillCard";
 import { getPublishedSkills } from "@/lib/notion";
 import { getSidebarConfig } from "@/lib/sidebar-config";
 
@@ -15,7 +16,7 @@ export function generateMetadata({ params }: PageProps): Metadata {
   const name = decodeURIComponent(params.name);
   return {
     title: name,
-    description: `${name}分类下的所有 Skills。`,
+    description: `${name}分类下的所有 Skills。`
   };
 }
 
@@ -24,7 +25,7 @@ export default async function CategoryPage({ params }: PageProps) {
 
   const [skills, sidebarConfig] = await Promise.all([
     getPublishedSkills(),
-    getSidebarConfig(),
+    getSidebarConfig()
   ]);
 
   const categorySkills = skills.filter((s) => s.category === categoryName);
@@ -49,36 +50,9 @@ export default async function CategoryPage({ params }: PageProps) {
               </p>
             </header>
 
-            <div className="skill-grid" style={{ marginTop: "var(--space-8)" }}>
+            <div className="skill-grid category-skill-grid">
               {categorySkills.map((skill) => (
-                <Link
-                  key={skill.id}
-                  href={`/skill/${skill.slug}`}
-                  className="skill-card"
-                >
-                  <div className="skill-card-topline">
-                    <h2>{skill.name}</h2>
-                    {skill.icon ? (
-                      <div className="skill-icon">
-                        <img
-                          src={skill.icon}
-                          alt=""
-                          width={38}
-                          height={38}
-                        />
-                      </div>
-                    ) : null}
-                  </div>
-                  <p>{skill.summary}</p>
-                  <div className="skill-card-meta">
-                    {skill.category ? (
-                      <span className="category-pill">{skill.category}</span>
-                    ) : null}
-                    <time dateTime={skill.createdAt}>
-                      {new Date(skill.createdAt).toLocaleDateString("zh-CN")}
-                    </time>
-                  </div>
-                </Link>
+                <SkillCard key={skill.id} skill={skill} />
               ))}
             </div>
           </article>

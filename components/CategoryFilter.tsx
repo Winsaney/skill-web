@@ -23,13 +23,24 @@ export function CategoryFilter({
 }) {
   const [activeCategory, setActiveCategory] = useState(ALL);
 
-  // Sync from URL hash on mount
   useEffect(() => {
-    const hashCategory = getCategoryFromHash();
-    if (hashCategory !== ALL) {
+    function syncCategoryFromHash() {
+      const hashCategory = getCategoryFromHash();
+
       setActiveCategory(hashCategory);
+      return hashCategory;
+    }
+
+    const initialCategory = syncCategoryFromHash();
+    window.addEventListener("hashchange", syncCategoryFromHash);
+
+    if (initialCategory !== ALL) {
       document.getElementById("skills")?.scrollIntoView({ behavior: "smooth" });
     }
+
+    return () => {
+      window.removeEventListener("hashchange", syncCategoryFromHash);
+    };
   }, []);
 
   const visibleSkills = useMemo(() => {
@@ -68,7 +79,7 @@ export function CategoryFilter({
       </div>
 
       {visibleSkills.length > 0 ? (
-        <div className="skill-grid" key={activeCategory}>
+        <div className="skill-grid">
           {visibleSkills.map((skill) => (
             <SkillCard key={skill.id} skill={skill} />
           ))}
