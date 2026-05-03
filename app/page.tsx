@@ -5,11 +5,11 @@ import { getPublishedSkills } from "@/lib/notion";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Nick 的 AI Skills 库",
+  title: "Agent Skills",
   description:
     "体系化整理 AI 使用技巧，涵盖提示词工程、工作流自动化等，持续更新中。",
   openGraph: {
-    title: "Nick 的 AI Skills 库",
+    title: "Agent Skills",
     description: "体系化整理 AI 使用技巧，持续更新中。",
     images: ["/og-default.png"]
   }
@@ -24,7 +24,7 @@ export default async function Home() {
   return (
     <main>
       <section className="hero-section">
-        <h1>AI Skills 库</h1>
+        <h1>Agent Skills</h1>
         <p className="hero-copy">
           体系化整理我在 AI 领域的实践方法论。每个 Skill 包含核心介绍、使用场景、实战示例。
         </p>

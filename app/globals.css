@@ -116,7 +116,7 @@ button {
   align-items: center;
   gap: var(--space-3);
   color: var(--color-text-primary);
-  font-size: var(--text-sm);
+  font-size: var(--text-lg);
   font-weight: var(--font-semibold);
 }
 

@@ -10,13 +10,13 @@ export const metadata: Metadata = {
     process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
   ),
   title: {
-    default: "Nick 的 AI Skills 库",
-    template: "%s | AI Skills 库"
+    default: "Agent Skills",
+    template: "%s | Agent Skills"
   },
   description:
     "体系化整理 AI 使用技巧，涵盖提示词工程、工作流自动化等，持续更新中。",
   openGraph: {
-    title: "Nick 的 AI Skills 库",
+    title: "Agent Skills",
     description: "体系化整理 AI 使用技巧，持续更新中。",
     images: ["/og-default.png"]
   }
