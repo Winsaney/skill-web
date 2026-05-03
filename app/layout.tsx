@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import "react-notion-x/src/styles.css";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
 
@@ -41,6 +42,7 @@ export default function RootLayout({
         <Nav />
         {children}
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
