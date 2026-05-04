@@ -3,11 +3,17 @@
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import type { SidebarConfig } from "@/lib/sidebar-config";
+
+export type DocsBreadcrumbItem = {
+  label: string;
+  href?: string;
+};
 
 type DocsSidebarProps = {
   config: SidebarConfig;
+  breadcrumbItems?: DocsBreadcrumbItem[];
 };
 
 function groupItemsId(href: string) {
@@ -16,11 +22,12 @@ function groupItemsId(href: string) {
     .replace(/[^a-zA-Z0-9_-]+/g, "-")}`;
 }
 
-export function DocsSidebar({ config }: DocsSidebarProps) {
+export function DocsSidebar({ config, breadcrumbItems }: DocsSidebarProps) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarId = "docs-sidebar-navigation";
+  const hasBreadcrumb = Boolean(breadcrumbItems?.length);
 
   const currentTitle = useMemo(() => {
     const directLink = config.links.find((link) => link.href === pathname);
@@ -92,16 +99,55 @@ export function DocsSidebar({ config }: DocsSidebarProps) {
 
   return (
     <>
-      <button
-        type="button"
-        className="docs-mobile-sidebar-trigger"
-        aria-controls={sidebarId}
-        aria-expanded={isSidebarOpen}
-        onClick={() => setIsSidebarOpen(true)}
-      >
-        <Menu size={22} aria-hidden="true" />
-        <span>{currentTitle}</span>
-      </button>
+      {hasBreadcrumb ? (
+        <div className="docs-mobile-sidebar-trigger docs-breadcrumb-bar">
+          <button
+            type="button"
+            className="docs-sidebar-menu-button"
+            aria-controls={sidebarId}
+            aria-expanded={isSidebarOpen}
+            aria-label="打开导航目录"
+            onClick={() => setIsSidebarOpen(true)}
+          >
+            <Menu size={22} aria-hidden="true" />
+          </button>
+
+          <nav className="docs-breadcrumb" aria-label="面包屑">
+            {breadcrumbItems?.map((item, index) => (
+              <Fragment key={`${item.href ?? "current"}-${item.label}`}>
+                {index > 0 ? (
+                  <span className="docs-breadcrumb-separator" aria-hidden="true">
+                    &rsaquo;
+                  </span>
+                ) : null}
+                {item.href ? (
+                  <Link className="docs-breadcrumb-item" href={item.href}>
+                    {item.label}
+                  </Link>
+                ) : (
+                  <span
+                    className="docs-breadcrumb-item docs-breadcrumb-current"
+                    aria-current="page"
+                  >
+                    {item.label}
+                  </span>
+                )}
+              </Fragment>
+            ))}
+          </nav>
+        </div>
+      ) : (
+        <button
+          type="button"
+          className="docs-mobile-sidebar-trigger"
+          aria-controls={sidebarId}
+          aria-expanded={isSidebarOpen}
+          onClick={() => setIsSidebarOpen(true)}
+        >
+          <Menu size={22} aria-hidden="true" />
+          <span>{currentTitle}</span>
+        </button>
+      )}
 
       <button
         type="button"
