@@ -82,9 +82,6 @@ export default async function SkillPage({ params }: PageProps) {
             <div className="skill-detail-main">
               <article className="article-layout">
                 <header className="article-header">
-                  {skill.category ? (
-                    <span className="category-pill">{skill.category}</span>
-                  ) : null}
                   <h1>{skill.name}</h1>
                   <p>{skill.summary || "暂无简介"}</p>
                   <div className="article-actions" aria-label="外部链接">

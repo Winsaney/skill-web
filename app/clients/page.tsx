@@ -16,7 +16,10 @@ export default async function ClientsPage() {
   return (
     <main className="docs-page">
       <div className="docs-layout">
-        <DocsSidebar config={sidebarConfig} />
+        <DocsSidebar
+          config={sidebarConfig}
+          breadcrumbItems={[{ label: "Agent 工具" }]}
+        />
 
         <div className="docs-content">
           <article className="article-layout">
