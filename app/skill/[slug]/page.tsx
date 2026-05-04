@@ -60,11 +60,20 @@ export default async function SkillPage({ params }: PageProps) {
   }
 
   const sections = getSkillSections(skill);
+  const breadcrumbItems = [
+    skill.category
+      ? {
+          label: skill.category,
+          href: `/category/${encodeURIComponent(skill.category)}`
+        }
+      : { label: "Skills 概览", href: "/" },
+    { label: skill.name }
+  ];
 
   return (
-    <main className="docs-page">
+    <main className="docs-page skill-page">
       <div className="docs-layout">
-        <DocsSidebar config={sidebarConfig} />
+        <DocsSidebar config={sidebarConfig} breadcrumbItems={breadcrumbItems} />
 
         <div className="docs-content">
           <div className="skill-detail-shell">
@@ -72,16 +81,6 @@ export default async function SkillPage({ params }: PageProps) {
 
             <div className="skill-detail-main">
               <article className="article-layout">
-                <nav className="breadcrumb" aria-label="面包屑">
-                  <Link href="/">首页</Link>
-                  {skill.category ? (
-                    <Link href={`/#category=${encodeURIComponent(skill.category)}`}>
-                      {skill.category}
-                    </Link>
-                  ) : null}
-                  <span>{skill.name}</span>
-                </nav>
-
                 <header className="article-header">
                   {skill.category ? (
                     <span className="category-pill">{skill.category}</span>

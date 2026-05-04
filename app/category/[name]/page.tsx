@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { DocsSidebar } from "@/components/DocsSidebar";
 import { SkillCard } from "@/components/SkillCard";
@@ -38,11 +37,6 @@ export default async function CategoryPage({ params }: PageProps) {
 
         <div className="docs-content">
           <article className="article-layout">
-            <nav className="breadcrumb" aria-label="面包屑">
-              <Link href="/">首页</Link>
-              <span>{categoryName}</span>
-            </nav>
-
             <header className="article-header">
               <h1>{categoryName}</h1>
               <p>
