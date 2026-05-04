@@ -15,7 +15,10 @@ export default async function SpecificationPage() {
   return (
     <main className="docs-page">
       <div className="docs-layout">
-        <DocsSidebar config={sidebarConfig} />
+        <DocsSidebar
+          config={sidebarConfig}
+          breadcrumbItems={[{ label: "Skills 规范" }]}
+        />
 
         <div className="docs-content">
           <article className="article-layout">

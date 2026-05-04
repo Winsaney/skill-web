@@ -22,7 +22,10 @@ export default async function Home() {
   return (
     <main className="docs-page">
       <div className="docs-layout">
-        <DocsSidebar config={sidebarConfig} />
+        <DocsSidebar
+          config={sidebarConfig}
+          breadcrumbItems={[{ label: "Skills 概览" }]}
+        />
 
         <div className="docs-content">
           <article className="article-layout">
