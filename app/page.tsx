@@ -63,7 +63,7 @@ export default async function Home() {
               <p className="section-kicker">Skills 库</p>
               <h2 className="section-title">覆盖核心工作场景</h2>
             </div>
-            <Link href="/clients" className="landing-skills-link">
+            <Link href="/category/产品经理" className="landing-skills-link">
               查看全部
               <svg
                 width="14"
