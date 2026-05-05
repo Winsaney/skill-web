@@ -1028,11 +1028,17 @@ html.dark .cta-section::before {
 }
 
 .cta-actions {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 560px;
+  margin: 0 auto;
   gap: 14px;
   position: relative;
-  flex-wrap: wrap;
+}
+
+.cta-actions > * {
+  justify-content: center;
+  text-align: center;
 }
 
 .cta-links {
@@ -2441,8 +2447,7 @@ html.dark .empty-state {
   }
 
   .cta-actions {
-    flex-direction: column;
-    align-items: center;
+    grid-template-columns: 1fr;
   }
 
   .cta-links {

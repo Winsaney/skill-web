@@ -146,7 +146,7 @@ export default async function Home() {
             </svg>
           </Link>
           <Link href="/specification" className="btn-secondary">
-            查看 Skills 规范
+            Skills 规范
             <svg
               width="14"
               height="14"
