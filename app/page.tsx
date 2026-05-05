@@ -127,7 +127,25 @@ export default async function Home() {
           文件就能开始。开源格式，即写即用，被越来越多的 Agent 产品原生支持。
         </p>
         <div className="cta-actions">
-          <Link href="/specification" className="btn-primary">
+          <Link href="/category/%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86" className="btn-primary">
+            浏览 Skills 库
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 16 16"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M3 8h10M9 4l4 4-4 4"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </Link>
+          <Link href="/specification" className="btn-secondary">
             查看 Skills 规范
             <svg
               width="14"
