@@ -1,6 +1,5 @@
 "use client";
 
-import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
@@ -109,7 +108,7 @@ export function DocsSidebar({ config, breadcrumbItems }: DocsSidebarProps) {
             aria-label="打开导航目录"
             onClick={() => setIsSidebarOpen(true)}
           >
-            <Menu size={22} aria-hidden="true" />
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
           </button>
 
           <nav className="docs-breadcrumb" aria-label="面包屑">
@@ -144,7 +143,7 @@ export function DocsSidebar({ config, breadcrumbItems }: DocsSidebarProps) {
           aria-expanded={isSidebarOpen}
           onClick={() => setIsSidebarOpen(true)}
         >
-          <Menu size={22} aria-hidden="true" />
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
           <span>{currentTitle}</span>
         </button>
       )}
@@ -170,7 +169,7 @@ export function DocsSidebar({ config, breadcrumbItems }: DocsSidebarProps) {
             aria-label="关闭导航"
             onClick={closeSidebar}
           >
-            <X size={24} aria-hidden="true" />
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
           </button>
         </div>
 

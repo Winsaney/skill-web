@@ -1,164 +1,185 @@
-import type { Metadata } from "next";
 import Link from "next/link";
-import { DocsSidebar } from "@/components/DocsSidebar";
-import { getSidebarConfig } from "@/lib/sidebar-config";
+import { Hero } from "@/components/Hero";
+import { TrustBar } from "@/components/TrustBar";
+import { CategoryFilter } from "@/components/CategoryFilter";
+import { getPublishedSkills } from "@/lib/notion";
+import { clients } from "@/lib/clients-data";
 
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
-  title: "Agent Skills",
-  description:
-    "了解 Agent Skills — 一种轻量、开放的 AI Agent 能力扩展格式。",
-  openGraph: {
-    title: "Agent Skills",
-    description: "了解 Agent Skills — 一种轻量、开放的 AI Agent 能力扩展格式。",
-    images: ["/og-default.png"]
-  }
-};
-
 export default async function Home() {
-  const sidebarConfig = await getSidebarConfig();
+  const skills = await getPublishedSkills();
+
+  const categories = Array.from(
+    new Set(skills.map((s) => s.category).filter(Boolean))
+  ).sort() as string[];
+
+  const skillCount = skills.length;
+  const categoryCount = categories.length;
+  const clientCount = clients.length;
 
   return (
-    <main className="docs-page">
-      <div className="docs-layout">
-        <DocsSidebar
-          config={sidebarConfig}
-          breadcrumbItems={[{ label: "Skills 概览" }]}
-        />
+    <>
+      <Hero />
 
-        <div className="docs-content">
-          <article className="article-layout">
-            <header className="article-header">
-              <h1>Agent Skills 概览</h1>
-              <p>
-                一种轻量、开放的格式，用于为 AI Agent
-                提供专业知识和可复用工作流。
-              </p>
-            </header>
+      <TrustBar />
 
-            <div className="article-body">
-              <section id="what">
-                <h2>什么是 Agent Skills？</h2>
-                <p>
-                  Agent Skills 是一种轻量、开放的格式，用于扩展 AI Agent
-                  的能力，赋予其专业知识和工作流。
-                </p>
-                <p>
-                  从根本上说，一个 Skill 就是一个包含
-                  <code>SKILL.md</code> 文件的文件夹。该文件包含元数据（至少包含{" "}
-                  <code>name</code> 和 <code>description</code>
-                  ）以及告诉 Agent 如何执行特定任务的指令。Skills
-                  还可以捆绑脚本、参考材料、模板和其他资源。
-                </p>
-                <pre>
-                  <code>{`my-skill/
-├── SKILL.md          # 必需：元数据 + 指令
-├── scripts/          # 可选：可执行代码
-├── references/       # 可选：文档
-├── assets/           # 可选：模板、资源
-└── ...               # 任何其他文件或目录`}</code>
-                </pre>
-              </section>
+      {/* How It Works */}
+      <section className="how-section" id="how">
+        <div className="section-inner">
+          <p className="section-kicker">工作原理</p>
+          <h2 className="section-title">渐进式加载，按需激活</h2>
+          <p className="section-desc">
+            Agent
+            不需要预先加载所有知识。Skills
+            通过三阶段渐进式加载，在保留大量能力的同时占用极小的上下文窗口。
+          </p>
 
-              <section id="why">
-                <h2>为什么需要 Agent Skills？</h2>
-                <p>
-                  Agent
-                  越来越强大，但往往缺乏可靠地完成实际工作所需的上下文。Skills
-                  通过将程序化知识和公司、团队、用户特定的上下文打包成可移植的、版本控制的文件夹来解决这一问题，Agent
-                  可以按需加载。这赋予了 Agent：
-                </p>
-                <ul>
-                  <li>
-                    <strong>领域专业知识</strong> —
-                    将专业知识捕获为可复用的指令和资源。
-                  </li>
-                  <li>
-                    <strong>可重复的工作流</strong> —
-                    将多步骤任务转变为一致的、可审计的流程。
-                  </li>
-                  <li>
-                    <strong>跨产品复用</strong> —
-                    一次构建，到处使用。
-                  </li>
-                </ul>
-              </section>
-
-              <section id="how">
-                <h2>Agent Skills 如何工作？</h2>
-                <p>
-                  Agent 通过
-                  <strong>渐进式加载（Progressive Disclosure）</strong>
-                  来加载 Skills，分三个阶段：
-                </p>
-                <ol>
-                  <li>
-                    <strong>发现</strong> —
-                    启动时，Agent 仅加载每个可用 Skills 的名称和描述。
-                  </li>
-                  <li>
-                    <strong>激活</strong> —
-                    当任务匹配时，Agent 将完整的
-                    <code>SKILL.md</code> 指令读入上下文。
-                  </li>
-                  <li>
-                    <strong>执行</strong> — Agent
-                    遵循指令，可选地执行捆绑的代码。
-                  </li>
-                </ol>
-                <p>
-                  完整指令仅在任务需要时加载，因此 Agent
-                  可以保留许多 Skills，而仅占用很小的上下文开销。
-                </p>
-              </section>
-
-              <section id="open">
-                <h2>开放开发</h2>
-                <p>
-                  Agent Skills 格式最初由
-                  <a
-                    href="https://www.anthropic.com/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Anthropic
-                  </a>
-                  开发，作为开放标准发布，已被越来越多的 Agent
-                  产品采用。
-                </p>
-                <p>
-                  欢迎在
-                  <a
-                    href="https://github.com/agentskills/agentskills"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    GitHub
-                  </a>
-                  或
-                  <a
-                    href="https://discord.gg/MKPE9g8aUy"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Discord
-                  </a>
-                  上参与讨论！
-                </p>
-              </section>
-
-              <section id="get-started">
-                <h2>开始使用</h2>
-                <div className="article-actions">
-                  <Link href="/specification">查看 Skills 规范</Link>
-                  <Link href="/clients">查看 Agent 工具</Link>
-                </div>
-              </section>
+          <div className="steps-grid">
+            <div className="step-card">
+              <div className="step-number">1</div>
+              <h3>发现</h3>
+              <p>启动时仅加载每个 Skill 的名称与描述，成本约 100 token</p>
             </div>
-          </article>
+            <div className="step-card">
+              <div className="step-number">2</div>
+              <h3>激活</h3>
+              <p>当任务匹配时，将完整的 SKILL.md 指令读入上下文</p>
+            </div>
+            <div className="step-card">
+              <div className="step-number">3</div>
+              <h3>执行</h3>
+              <p>Agent 遵循指令，可选地执行捆绑的脚本与代码</p>
+            </div>
+          </div>
         </div>
-      </div>
-    </main>
+      </section>
+
+      {/* Skills Showcase */}
+      <section className="landing-skills" id="skills">
+        <div className="section-inner">
+          <div className="landing-skills-header">
+            <div>
+              <p className="section-kicker">Skills 库</p>
+              <h2 className="section-title">覆盖核心工作场景</h2>
+            </div>
+            <Link href="/clients" className="landing-skills-link">
+              查看全部
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M3 8h10M9 4l4 4-4 4"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </Link>
+          </div>
+
+          <CategoryFilter skills={skills} categories={categories} />
+        </div>
+      </section>
+
+      {/* Stats */}
+      <section className="stats-section">
+        <div className="stats-grid">
+          <div className="stat-item">
+            <div className="stat-number">
+              {skillCount}
+              <span className="accent">+</span>
+            </div>
+            <div className="stat-label">已发布 Skills</div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-number">{categoryCount}</div>
+            <div className="stat-label">覆盖领域</div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-number">{clientCount}</div>
+            <div className="stat-label">Agent 工具支持</div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-number">
+              <span className="accent">&lt;</span>500
+            </div>
+            <div className="stat-label">token / Skill 指令</div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="cta-section" id="cta">
+        <p className="section-kicker">开始使用</p>
+        <h2>
+          构建你的第一个
+          <br />
+          <em>Agent Skill</em>
+        </h2>
+        <p>
+          只需一个 SKILL.md
+          文件就能开始。开源格式，即写即用，被越来越多的 Agent 产品原生支持。
+        </p>
+        <div className="cta-actions">
+          <Link href="/specification" className="btn-primary">
+            查看 Skills 规范
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 16 16"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M3 8h10M9 4l4 4-4 4"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </Link>
+          <a
+            href="https://xhslink.com/m/9H2ARGAntEt"
+            target="_blank"
+            rel="noreferrer"
+            className="btn-secondary"
+          >
+            小红书图文
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 16 16"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M12 6v6H6"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </a>
+        </div>
+        <div className="cta-links">
+          <a
+            href="https://xhslink.com/m/9H2ARGAntEt"
+            target="_blank"
+            rel="noreferrer"
+          >
+            小红书图文
+          </a>
+          <Link href="/clients">Agent 工具列表</Link>
+        </div>
+      </section>
+    </>
   );
 }

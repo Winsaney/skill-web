@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { SkillCard } from "@/components/SkillCard";
 import type { Skill } from "@/types";
 
@@ -23,10 +23,13 @@ export function CategoryFilter({
 }) {
   const [activeCategory, setActiveCategory] = useState(ALL);
 
+  const handleCategoryClick = useCallback((category: string) => {
+    setActiveCategory(category);
+  }, []);
+
   useEffect(() => {
     function syncCategoryFromHash() {
       const hashCategory = getCategoryFromHash();
-
       setActiveCategory(hashCategory);
       return hashCategory;
     }
@@ -54,15 +57,7 @@ export function CategoryFilter({
   const filterItems = [ALL, ...categories];
 
   return (
-    <section className="skills-section" id="skills" aria-labelledby="skills-title">
-      <div className="section-heading">
-        <div>
-          <p className="section-kicker">Library</p>
-          <h2 id="skills-title">已整理的 Skills</h2>
-        </div>
-        <span className="skill-count">{visibleSkills.length} / {skills.length}</span>
-      </div>
-
+    <>
       <div className="category-filter" aria-label="按分类筛选">
         {filterItems.map((category) => (
           <button
@@ -71,7 +66,7 @@ export function CategoryFilter({
             key={category}
             type="button"
             aria-pressed={activeCategory === category}
-            onClick={() => setActiveCategory(category)}
+            onClick={() => handleCategoryClick(category)}
           >
             {category}
           </button>
@@ -90,6 +85,6 @@ export function CategoryFilter({
           <p>这个分类下暂时没有 Published Skills。</p>
         </div>
       )}
-    </section>
+    </>
   );
 }

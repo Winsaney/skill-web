@@ -21,7 +21,7 @@ export async function getSidebarConfig(): Promise<SidebarConfig> {
   const skills = await getPublishedSkills();
 
   const links: SidebarLink[] = [
-    { label: "Skills 概览", href: "/" },
+    { label: "Skills 概览", href: "/about" },
     { label: "Skills 规范", href: "/specification" },
     { label: "Agent 工具", href: "/clients" },
   ];

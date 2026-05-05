@@ -5,6 +5,7 @@ import type {
   PageObjectResponse,
   QueryDatabaseResponse
 } from "@notionhq/client/build/src/api-endpoints";
+import { cache } from "react";
 import { unstable_cache } from "next/cache";
 import { demoSkills } from "@/lib/demo-data";
 import { transformNotionPage } from "@/lib/transform";
@@ -343,13 +344,13 @@ const getCachedPublishedSkillsFromNotion = unstable_cache(
   { revalidate: 3600 }
 );
 
-export async function getPublishedSkills(): Promise<Skill[]> {
+export const getPublishedSkills = cache(async function getPublishedSkills(): Promise<Skill[]> {
   if (!hasNotionConfig()) {
     return sortByCreatedAtDesc(demoSkills);
   }
 
   return getCachedPublishedSkillsFromNotion();
-}
+});
 
 export async function getSkillBySlug(
   slug: string,
