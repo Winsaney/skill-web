@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { NavCta, NavHomeLinks } from "@/components/NavCta";
@@ -7,7 +8,7 @@ export function Nav() {
     <header className="site-header">
       <nav className="site-nav" aria-label="主导航">
         <Link className="brand" href="/">
-          <span className="brand-mark">A</span>
+          <Image src="/red-panda.png" alt="" width={28} height={28} />
           <span>Agent Skills</span>
         </Link>
 
