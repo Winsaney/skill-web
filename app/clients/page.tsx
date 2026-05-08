@@ -31,6 +31,22 @@ export default async function ClientsPage() {
             <div className="clients-grid">
               {clients.map((client) => (
                 <div key={client.name} className="client-card">
+                  {client.logoDir && (
+                    <a href={client.url} target="_blank" rel="noreferrer" className="client-card-logo">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={`${client.logoDir}/light.svg`}
+                        alt={`${client.name} logo`}
+                        className="client-logo-light"
+                      />
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={`${client.logoDir}/dark.svg`}
+                        alt={`${client.name} logo`}
+                        className="client-logo-dark"
+                      />
+                    </a>
+                  )}
                   <h3>
                     <a href={client.url} target="_blank" rel="noreferrer">
                       {client.name}

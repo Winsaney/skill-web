@@ -16,10 +16,24 @@ export function TrustBar() {
               target="_blank"
               rel="noreferrer"
             >
-              <span className="trust-logo-icon">
-                {client.name.slice(0, 1)}
-              </span>
-              {client.name}
+              {client.logoDir ? (
+                <>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`${client.logoDir}/light.svg`}
+                    alt={client.name}
+                    className="trust-logo-light"
+                  />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`${client.logoDir}/dark.svg`}
+                    alt={client.name}
+                    className="trust-logo-dark"
+                  />
+                </>
+              ) : (
+                <span>{client.name}</span>
+              )}
             </a>
           ))}
         </div>
