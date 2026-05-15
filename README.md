@@ -2,6 +2,13 @@
 
 Agent Skills 展示站 — 一种轻量、开放的 AI Agent 能力扩展格式。基于 Next.js 14 App Router + Notion Headless CMS 构建，采用 Anthropic Claude 品牌设计语言。
 
+## 核心特性
+
+- **Notion Headless CMS**：无缝对接 Notion 数据库，直接将文档和子表格转化为富文本呈现。
+- **全局文档搜索**：基于原生 `<dialog>` 的全局搜索模块（快捷键 `⌘K` / `Ctrl+K`），原生支持 ESC 退出与焦点捕获。
+- **现代化设计系统**：基于 Anthropic Claude 品牌设计规范，提供响应式布局以及优雅的亮色 / 暗色模式平滑切换。
+- **极致性能**：采用 Next.js ISR 增量静态生成，静态缓存与定时刷新结合。
+
 ## 技术栈
 
 | 层次 | 技术 | 说明 |
@@ -42,6 +49,7 @@ Agent Skills 展示站 — 一种轻量、开放的 AI Agent 能力扩展格式�
 
 ```
 app/
+  api/search/route.ts     # 全局搜索 API 接口
   page.tsx                # Landing Page
   about/page.tsx          # Skills 概览（DocsSidebar 布局）
   layout.tsx              # 全局布局（Nav + Footer + ThemeProvider）
@@ -55,6 +63,8 @@ app/
   robots.ts / sitemap.ts  # SEO
 components/
   Nav.tsx                 # 顶部导航（品牌 + 中间链接 + CTA）
+  SearchModal.tsx         # 全局搜索弹窗 (原生 Dialog)
+  SearchTrigger.tsx       # 全局搜索触发按钮
   Footer.tsx              # 深色页脚
   Hero.tsx                # Landing Hero（大标题 + 几何装饰 + 代码预览）
   TrustBar.tsx            # Agent 产品信任条
