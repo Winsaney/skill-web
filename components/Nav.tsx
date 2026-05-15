@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { NavCta, NavHomeLinks } from "@/components/NavCta";
+import { SearchTrigger } from "@/components/SearchTrigger";
 
 export function Nav() {
   return (
@@ -15,6 +16,7 @@ export function Nav() {
         <NavHomeLinks />
 
         <div className="nav-right">
+          <SearchTrigger />
           <ThemeToggle />
           <NavCta />
         </div>
