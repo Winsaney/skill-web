@@ -1718,7 +1718,7 @@ html.dark .cta-section::before {
 
 .notion-table {
   width: 100%;
-  min-width: 560px;
+  table-layout: fixed;
   border-collapse: collapse;
   font-size: var(--text-sm);
   line-height: var(--leading-normal);
@@ -1726,12 +1726,19 @@ html.dark .cta-section::before {
 
 .notion-table th,
 .notion-table td {
-  min-width: 132px;
   border-right: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
   padding: var(--space-3);
   text-align: left;
   vertical-align: top;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.notion-table th:first-child,
+.notion-table td:first-child {
+  width: 120px;
 }
 
 .notion-table th {
