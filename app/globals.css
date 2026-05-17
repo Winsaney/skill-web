@@ -1611,6 +1611,48 @@ html.dark .cta-section::before {
   font-family: var(--font-mono);
 }
 
+.code-block-wrapper {
+  position: relative;
+}
+
+.code-block-wrapper pre {
+  margin: var(--space-4) 0 0;
+  padding: var(--space-4);
+}
+
+.copy-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  background: var(--color-border);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s, background 0.15s;
+}
+
+.code-block-wrapper:hover .copy-button,
+.copy-button:focus {
+  opacity: 1;
+}
+
+.copy-button:hover {
+  background: var(--color-text-secondary);
+  color: var(--color-bg);
+}
+
+.copy-button:focus {
+  outline: 2px solid var(--color-text-primary);
+  outline-offset: 2px;
+}
+
 .rt-bold {
   font-weight: var(--font-semibold);
 }

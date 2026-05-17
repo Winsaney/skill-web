@@ -6,6 +6,7 @@ import {
   sectionIdFromIndex
 } from "@/lib/skill-navigation";
 import type { NotionBlock, SkillContentSection } from "@/types";
+import { CodeBlock } from "@/components/CodeBlock";
 
 function plainText(items: RichTextItemResponse[]) {
   return items.map((item) => item.plain_text).join("");
@@ -222,9 +223,7 @@ function renderBlock(block: NotionBlock) {
       );
     case "code":
       return (
-        <pre key={block.id}>
-          <code>{plainText(block.code.rich_text)}</code>
-        </pre>
+        <CodeBlock key={block.id} text={plainText(block.code.rich_text)} />
       );
     case "divider":
       return <hr key={block.id} />;
@@ -348,7 +347,7 @@ export function NotionContent({
           {section.body.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
-          {section.code ? <pre><code>{section.code}</code></pre> : null}
+          {section.code ? <CodeBlock text={section.code} /> : null}
         </section>
       ))}
     </div>
