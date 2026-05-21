@@ -1718,7 +1718,7 @@ html.dark .cta-section::before {
 
 .notion-table {
   width: 100%;
-  table-layout: fixed;
+  table-layout: auto;
   border-collapse: collapse;
   font-size: var(--text-sm);
   line-height: var(--leading-normal);

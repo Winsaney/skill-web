@@ -32,6 +32,10 @@ export const metadata: Metadata = {
   },
   description:
     "体系化整理 AI 使用技巧，涵盖提示词工程、工作流自动化等，持续更新中。",
+  icons: {
+    icon: "/favicon.png",
+    apple: "/apple-icon.png",
+  },
   openGraph: {
     title: "Agent Skills",
     description: "体系化整理 AI 使用技巧，持续更新中。",
