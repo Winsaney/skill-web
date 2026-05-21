@@ -90,8 +90,8 @@ types/
 ## 本地开发
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 未配置 `.env.local` 时，站点使用 `lib/demo-data.ts` 中的演示数据，可直接预览。
@@ -112,9 +112,9 @@ NOTION_DATABASE_ID=your_skills_database_id
 ## 常用命令
 
 ```bash
-npm run dev        # 启动开发服务器
-npm run build      # 生产构建
-npm run start      # 启动生产服务器
-npm run lint       # ESLint 检查
-npm run typecheck  # TypeScript 类型检查
+pnpm dev        # 启动开发服务器
+pnpm build      # 生产构建
+pnpm start      # 启动生产服务器
+pnpm lint       # ESLint 检查
+pnpm typecheck  # TypeScript 类型检查
 ```
