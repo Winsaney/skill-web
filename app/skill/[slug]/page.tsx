@@ -11,6 +11,8 @@ import {
 } from "@/lib/notion";
 import { getSkillSections } from "@/lib/skill-navigation";
 import { getSidebarConfig } from "@/lib/sidebar-config";
+import { tipConfig } from "@/lib/tip-config";
+import { TipSection } from "@/components/TipSection";
 
 export const revalidate = 3600;
 
@@ -103,6 +105,10 @@ export default async function SkillPage({ params }: PageProps) {
                   fallbackSections={skill.demoSections}
                 />
               </article>
+
+              {tipConfig.enabled && (
+                <TipSection qrUrl={tipConfig.qrUrl} text={tipConfig.text} />
+              )}
 
               <nav className="pagination" aria-label="上一篇和下一篇">
                 {adjacent.previous ? (
