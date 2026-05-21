@@ -15,20 +15,21 @@
 ## 常用命令
 
 ```bash
-npm install
-npm run dev
-npm run build
-npm run start
-npm run lint
-npm run typecheck
+pnpm install
+pnpm dev
+pnpm build
+pnpm start
+pnpm lint
+pnpm typecheck
 ```
 
 说明：
 
-- `npm run dev` 启动 Next.js 开发服务器。
-- `npm run build` 执行生产构建。
-- `npm run lint` 使用 Next.js ESLint 配置。
-- `npm run typecheck` 执行 `tsc --noEmit`。
+- `pnpm dev` 启动 Next.js 开发服务器。
+- `pnpm build` 执行生产构建。
+- `pnpm lint` 使用 Next.js ESLint 配置。
+- `pnpm typecheck` 执行 `tsc --noEmit`。
+- 包管理器使用 `pnpm`（README 已从 `npm` 迁移）。
 
 ## 环境变量
 
@@ -64,8 +65,9 @@ NEXT_PUBLIC_SITE_URL=
 - Notion SDK：`@notionhq/client`。
 - Notion 相关依赖：`notion-client`、`notion-types`、`react-notion-x` 已安装；当前源码主要使用自定义 Notion block 渲染器，同时在全局布局中引入了 `react-notion-x/src/styles.css`。
 - Slug：`pinyin-pro`，用于中文 Skill 名称转拼音 URL。
+- 代码高亮：`prism-react-renderer`，用于代码块语法着色。
 - 主题：`next-themes`，默认亮色，禁用系统主题跟随。
-- 图标：`lucide-react`，当前用于主题切换按钮。
+- 图标：`lucide-react`，用于主题切换按钮、代码复制按钮（Check/Copy）等。
 - 观测：`@vercel/analytics` 和 `@vercel/speed-insights`。
 
 ## 目录结构
@@ -79,6 +81,7 @@ app/
   clients/page.tsx        支持 Agent Skills 的工具列表
   category/[name]/page.tsx 分类页
   skill/[slug]/page.tsx   Skill 详情页
+  api/search/route.ts     全局搜索 API，搜索 Skills 和静态文档
   loading.tsx             全局加载骨架
   not-found.tsx           自定义 404
   robots.ts               robots 配置
@@ -86,16 +89,19 @@ app/
   globals.css             全局样式、设计令牌、响应式布局、深色模式
 
 components/
-  Nav.tsx                 顶部导航
+  Nav.tsx                 顶部导航，集成搜索触发按钮
   NavCta.tsx              仅首页展示的导航中部链接和 CTA
   Footer.tsx              页脚
   Hero.tsx                首页 Hero
-  TrustBar.tsx            Agent 工具信任条
+  TrustBar.tsx            Agent 工具信任条，展示 8 个工具的 logo（含亮/暗色变体）
   CategoryFilter.tsx      客户端分类筛选
   SkillCard.tsx           Skill 卡片
   DocsSidebar.tsx         文档页左侧导航，移动端抽屉
   SkillSidebar.tsx        Skill 详情页右侧目录
   NotionContent.tsx       Notion block 与演示正文渲染
+  SearchModal.tsx         全局搜索弹窗，基于原生 <dialog>，支持键盘导航
+  SearchTrigger.tsx       搜索触发按钮，全局 Cmd+K / Ctrl+K 快捷键
+  CodeBlock.tsx           代码块组件，带复制到剪贴板功能
   ThemeProvider.tsx       next-themes Provider
   ThemeToggle.tsx         亮色 / 深色切换按钮
 
@@ -112,7 +118,17 @@ types/
   index.ts                Skill、NotionBlock、嵌入数据库等类型定义
 
 public/
-  静态图片和默认 OG 图
+  images/logos/           8 个 Agent 工具 logo 目录，每个含 light/dark SVG 变体
+    claude-ai/            Claude AI logo
+    claude-code/          Claude Code logo
+    cursor/               Cursor logo
+    gemini-cli/           Gemini CLI logo
+    kiro/                 Kiro logo
+    oai-codex/            OpenAI Codex logo
+    opencode/             OpenCode logo
+    trae/                 TRAE logo
+  og-default.png/svg      默认 OG 图
+  red-panda.png           品牌 icon
 ```
 
 ## 页面与路由
@@ -124,6 +140,7 @@ public/
 - `/category/[name]`：按分类展示 Skills；没有匹配分类时调用 `notFound()`。
 - `/skill/[slug]`：Skill 详情页；生成静态参数、动态 metadata、正文、左侧文档导航、右侧本页目录和上一篇 / 下一篇。
 - `/robots.txt` 和 `/sitemap.xml`：由 App Router metadata route 生成。
+- `POST /api/search`：全局搜索 API。`force-dynamic` 模式，实时搜索 Skills（名称、摘要、分类）和静态文档（概览、规范、工具列表）。返回 `SearchResult[]`，按文档优先排列。
 
 所有主要页面都设置了：
 
@@ -227,6 +244,7 @@ Chain of Thought -> chain-of-thought
 - 连续列表项会合并成同一个 `ul` 或 `ol`。
 - 嵌套 block 通过 `NestedBlocks` 递归渲染。
 - 详情页目录通过 heading block 自动生成锚点。
+- 代码块使用 `CodeBlock` 组件渲染，带复制到剪贴板按钮。
 - 没有 Notion 正文时，演示数据使用 `demoSections` 渲染。
 
 ## 导航与侧边栏
@@ -244,6 +262,20 @@ Chain of Thought -> chain-of-thought
   - ESC 关闭
   - 打开时锁定 body 滚动
 - `SkillSidebar` 是详情页右侧目录，只在存在 heading 或演示 section 时展示。
+
+## 全局搜索
+
+实现位置：`components/SearchTrigger.tsx` + `components/SearchModal.tsx` + `app/api/search/route.ts`。
+
+- `SearchTrigger` 在 `Nav` 中渲染，全局监听 `Cmd+K` / `Ctrl+K` 快捷键。
+- `SearchModal` 使用浏览器原生 `<dialog>` 元素，支持：
+  - ESC 关闭、点击背景关闭、焦点陷阱（浏览器原生行为）
+  - 键盘上下导航、Enter 打开结果
+  - 搜索结果高亮匹配文本
+  - 搜索结果按文档优先、Skill 在后排列
+- 搜索 API (`/api/search`) 为 `force-dynamic`，实时查询 Notion Skills 数据和静态文档。
+- 200ms 输入防抖。
+- 搜索范围：Skill 名称、摘要、分类；文档标题、描述。
 
 ## UI 与设计系统
 
@@ -270,19 +302,24 @@ Chain of Thought -> chain-of-thought
 
 ## 已知实现细节与注意事项
 
-- `AGENTS.md` 当前是新增的项目说明文件，原文件为空。
 - 仓库中存在 `.env.local`，但不要读取、打印或提交其中的真实值。
 - `README.md` / `spec.md` 提到 `react-notion-x` 直接渲染正文；当前源码实际上主要使用 `components/NotionContent.tsx` 的自定义渲染逻辑。
 - `package.json` 里保留了 `notion-client`、`notion-types`、`react-notion-x` 依赖；改动前确认是否还需要它们。
-- 首页“查看全部”和 CTA 中有写死的 `/category/产品经理` 链接；如果真实 Notion 数据里没有该分类，会进入 404。
+- 首页”查看全部”和 CTA 中有写死的 `/category/产品经理` 链接；如果真实 Notion 数据里没有该分类，会进入 404。
 - CSS 中有若干固定分类色映射，例如 `提示工程`、`代码开发`、`内容创作`、`数据分析`、`安全审计`、`文档处理`、`工作流自动化`。新增分类时若想有专属色，需要补充 `data-category` 样式。
 - 演示数据里存在 `提示词工程`，而 CSS 固定映射里是 `提示工程`；该分类会使用默认卡片强调色。
 - `NavHomeLinks` 和 `NavCta` 只在首页展示，其他页面导航更简洁。
+- `SearchTrigger` 在所有页面的导航栏右侧展示。
 - `SkillCard` 是客户端组件，原因是需要处理图片加载失败状态。
+- `SearchModal` 是客户端组件，使用原生 `<dialog>` 管理焦点陷阱和 ESC 关闭。
+- `CodeBlock` 是客户端组件，使用 `navigator.clipboard` API 实现复制功能。
 - `CategoryFilter` 使用 URL hash 中的 `category=` 初始化筛选，并在命中时滚动到 Skills 区域；点击筛选按钮本身不更新 hash。
 - Notion URL 字段会通过正则提取第一个 `http(s)` 链接，避免混入额外文本。
 - `getRelatedSkills()` 当前定义了相关 Skills 逻辑，但实际详情页没有使用。
 - `.claude/settings.local.json` 是本地工具权限配置，不属于站点运行逻辑。
+- 搜索 API 每次请求都会调用 `getPublishedSkills()`，没有独立缓存；依赖 Notion 层的 `unstable_cache`。
+- 项目没有测试框架和测试文件。
+- 项目没有使用 Tailwind CSS，全部样式在 `globals.css` 中通过 CSS 变量和自定义类名管理。
 
 ## 修改建议
 
@@ -318,6 +355,8 @@ npm run build
 - Skill 详情页 `/skill/[slug]`
 - 分类页 `/category/[name]`
 - 文档页 `/about`、`/specification`、`/clients`
+- 全局搜索 `Cmd+K` / `Ctrl+K`
+- 代码块复制按钮
 - Notion 未配置时的演示数据回退
 - 移动端侧边栏抽屉
 - 深色模式
@@ -325,4 +364,4 @@ npm run build
 
 ## Git 状态备注
 
-本次整理前，`AGENTS.md` 已存在但为空，并处于未跟踪状态。除写入该文件外，不应修改其他文件。
+当前分支：`main`，工作区干净。最近主要变更包括全局搜索功能、代码块复制按钮、Agent 工具 logo 更新、表格列宽优化等。
