@@ -128,7 +128,7 @@ public/
     opencode/             OpenCode logo
     trae/                 TRAE logo
   og-default.png/svg      默认 OG 图
-  red-panda.png           品牌 icon
+  logo.svg                品牌 icon
 ```
 
 ## 页面与路由

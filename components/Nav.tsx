@@ -9,7 +9,7 @@ export function Nav() {
     <header className="site-header">
       <nav className="site-nav" aria-label="主导航">
         <Link className="brand" href="/">
-          <Image src="/red-panda.png" alt="" width={28} height={28} />
+          <Image src="/logo.svg" alt="" width={28} height={28} />
           <span>Agent Skills</span>
         </Link>
 
